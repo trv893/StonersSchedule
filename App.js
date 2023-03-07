@@ -1,13 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { ScheduleHeader } from './components/ScheduleHeader';
+//import { ScheduleHeader } from './components/ScheduleHeader';
 import { WeeklySchedule } from './components/WeeklySchedule';
+//import DateTable from './components/DateTable';
+import { FWeeklySchedule } from './components/FWeeklySchedule';
+import WeekSelector from './components/WeekSelector';
+
+
+
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <WeeklySchedule />
-      <StatusBar style="auto" />
+      <WeekSelector />
     </View>
   );
 }
@@ -16,9 +21,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 80,
+    marginTop: 60,
+
     //alignItems: 'center',
     //justifyContent: 'center',
-    top:0
+    //top:0
   },
 });
