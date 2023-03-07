@@ -1,93 +1,100 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import React, { useState } from 'react';
+import { Text, FlatList, View, StyleSheet  } from 'react-native';
+import WeekSelector from './WeekSelector';
 
-export function FWeeklySchedule() {
-  const [data, setData] = useState(null);
-  const [userId, setUserId] = useState(5);
+const FWeeklySchedule = () => {
+  const [startDate, setStartDate] = useState(new Date());
 
-  const [filteredData, setFilteredData] = useState([]);
-
-  const startDate = "3/6/2023";
-  const endDate = "3/15/2023";
-
-  async function getShiftAssignments(startDate, endDate) {
-    const url = `http://192.168.50.230:8888/Employee/GetShiftAssignments?startDate=${startDate}&endDate=${endDate}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  }
-
-  useEffect(() => {
-    async function fetchData() {
-      const result = await getShiftAssignments(startDate, endDate);
-      setData(result);
+  const [weekDates, setWeekDates] = useState(() => {
+    const dates = [];
+    const day = new Date(startDate);
+    for (let i = 0; i < 7; i++) {
+      dates.push(new Date(day));
+      day.setDate(day.getDate() + 1);
     }
-    fetchData();
-    const uniqueDatesArray = Array.from(
-      new Set(filteredData.map((item) => item.dateAssigned))
-    );
-    //setUniqueDates(uniqueDatesArray);
-  }, []);
+    return dates;
+  });
 
-  useEffect(() => {
-    const getUsersWithId = () => {
-      // Use Array.filter to return only objects with matching userId
-      const filteredData =
-        data && data.filter((item) => item.userId === userId);
+  const handleStartDateChange = (newStartDate) => {
+    setStartDate(newStartDate);
+    const dates = [];
+    const day = new Date(newStartDate);
+    for (let i = 0; i < 7; i++) {
+      dates.push(new Date(day));
+      day.setDate(day.getDate() + 1);
+    }
+    setWeekDates(dates);
+  };
 
-      setFilteredData(filteredData || []);
-      console.log(filteredData);
-    };
-
-    getUsersWithId();
-  }, [data, userId]);
-
-  if (!data) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  const formatDayOfMonth = (date) => {
+    const dayOfMonth = date.getDate();
+    switch (dayOfMonth) {
+      case 1:
+      case 21:
+      case 31:
+        return `${dayOfMonth}st`;
+      case 2:
+      case 22:
+        return `${dayOfMonth}nd`;
+      case 3:
+      case 23:
+        return `${dayOfMonth}rd`;
+      default:
+        return `${dayOfMonth}th`;
+    }
+  };
 
   const renderItem = ({ item }) => {
-    const { dateAssigned } = item;
-    const amShift = filteredData.find(
-      (i) => i.dateAssigned === dateAssigned && i.shiftName === "AM"
-    );
-    const pmShift = filteredData.find(
-      (i) => i.dateAssigned === dateAssigned && i.shiftName === "PM"
-    );
-
+    const date = item.getDate();
+    const weekday = item.toLocaleString('default', { weekday: 'short' }).slice(0, 3);
+    const suffix = date > 3 && date < 21 ? 'th' : ['st', 'nd', 'rd'][date % 10 - 1] || 'th';
+    const formattedDate = `${weekday} ${date}${suffix}`;
+  
     return (
-      <View style={styles.item}>
-        <Text>{dateAssigned}</Text>
-        <Text>
-          {amShift ? `Section: ${amShift.section}` : "Not Working"}
-          {pmShift ? ` AM Section ${pmShift.section} PM` : ""}
-        </Text>
+      <View style={styles.itemContainer}>
+        <View style={styles.item}>
+          <Text style={styles.itemText}>{formattedDate}</Text>
+        </View>
       </View>
     );
   };
+  
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={filteredData}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+    <>
+      <WeekSelector
+        onStartDateChange={handleStartDateChange}
+        startDate={startDate}
       />
-
-      {/* <Text>Filtered Data:</Text>
-      <Text>{JSON.stringify(filteredData, null, 2)}</Text> */}
-    </View>
+      <FlatList
+      data={weekDates}
+      renderItem={renderItem}
+      keyExtractor={item => item.toISOString()}
+    />
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 10,
+  itemContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  item: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  itemText: {
+    fontSize: 24,
+    padding: 10,
+    textAlign: 'center',
   },
 });
+
+
+export default FWeeklySchedule;

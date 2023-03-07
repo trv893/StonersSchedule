@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 //import { ScheduleHeader } from './components/ScheduleHeader';
 import { WeeklySchedule } from './components/WeeklySchedule';
 //import DateTable from './components/DateTable';
-import { FWeeklySchedule } from './components/FWeeklySchedule';
+import FWeeklySchedule from './components/FWeeklySchedule';
 import WeekSelector from './components/WeekSelector';
 
 
@@ -12,7 +12,7 @@ import WeekSelector from './components/WeekSelector';
 export default function App() {
   return (
     <View style={styles.container}>
-      <WeekSelector />
+      <FWeeklySchedule />
     </View>
   );
 }
