@@ -4,3 +4,4 @@ async function getShiftAssignments(startDate, endDate) {
   const data = await response.json();
   return data;
 }
+export default getShiftAssignments;

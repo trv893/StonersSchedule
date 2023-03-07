@@ -1,9 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, FlatList, View, StyleSheet  } from 'react-native';
 import WeekSelector from './WeekSelector';
+//import getShiftAssignments from '../dbservice/shiftService';
 
 const FWeeklySchedule = () => {
+  const [data, setData] = useState(null);
+  const [userId, setUserId] = useState(5);
+  const [filteredData, setFilteredData] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(() => {
+    const day = new Date(startDate);
+    day.setDate(startDate.getDate() + 6);
+    return day;
+  });
+
+  async function getShiftAssignments(startDate, endDate) {
+    const url = `http://192.168.50.230:8888/Employee/GetShiftAssignments?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()??""}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getShiftAssignments(startDate, endDate);
+      setData(result);
+    }
+    fetchData();
+    console.log(data)
+  }, []);
+  
+
+  
 
   const [weekDates, setWeekDates] = useState(() => {
     const dates = [];
@@ -24,53 +52,44 @@ const FWeeklySchedule = () => {
       day.setDate(day.getDate() + 1);
     }
     setWeekDates(dates);
+    const newEndDate = new Date(newStartDate);
+    newEndDate.setDate(newStartDate.getDate() + 6);
+    setEndDate(newEndDate);
+    console.log(endDate)
+  };
+  const handleDateChange = (date) => {
+    setEndDate(date);
   };
 
-  const formatDayOfMonth = (date) => {
-    const dayOfMonth = date.getDate();
-    switch (dayOfMonth) {
-      case 1:
-      case 21:
-      case 31:
-        return `${dayOfMonth}st`;
-      case 2:
-      case 22:
-        return `${dayOfMonth}nd`;
-      case 3:
-      case 23:
-        return `${dayOfMonth}rd`;
-      default:
-        return `${dayOfMonth}th`;
-    }
-  };
+  
 
   const renderItem = ({ item }) => {
     const date = item.getDate();
     const weekday = item.toLocaleString('default', { weekday: 'short' }).slice(0, 3);
     const suffix = date > 3 && date < 21 ? 'th' : ['st', 'nd', 'rd'][date % 10 - 1] || 'th';
     const formattedDate = `${weekday} ${date}${suffix}`;
-  
     return (
       <View style={styles.itemContainer}>
-        <View style={styles.item}>
-          <Text style={styles.itemText}>{formattedDate}</Text>
-        </View>
+      <View style={styles.item}>
+        <Text style={styles.itemText}>{formattedDate}</Text>
       </View>
+    </View>
     );
   };
-  
 
   return (
     <>
       <WeekSelector
         onStartDateChange={handleStartDateChange}
         startDate={startDate}
+        endDate={endDate}
+        onDateChange={handleDateChange}
       />
       <FlatList
-      data={weekDates}
-      renderItem={renderItem}
-      keyExtractor={item => item.toISOString()}
-    />
+        data={weekDates}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.toISOString()}
+      />
     </>
   );
 };
