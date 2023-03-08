@@ -96,42 +96,16 @@ const FWeeklySchedule = ({ shiftData }) => {
   // Render function for the FlatList items
   const renderItem = ({ item }) => {
     const date = item.getDate();
-    const weekday = item
-      .toLocaleString("default", { weekday: "short" })
-      .slice(0, 3);
-    const suffix =
-      date > 3 && date < 21
-        ? "th"
-        : ["st", "nd", "rd"][(date % 10) - 1] || "th";
+    const weekday = item.toLocaleString("default", { weekday: "short" }).slice(0, 3);
+    const suffix = date > 3 && date < 21 ? "th" : ["st", "nd", "rd"][(date % 10) - 1] || "th";
     const formattedDate = `${weekday} ${date}${suffix}`;
-
-    // Find the shift objects that match the current date and user ID
+  
+    // Find the matching shifts for the current date and user ID
     const matchingShiftAM = findShiftForDayAndUser(item, userId, "AM");
     const matchingShiftPM = findShiftForDayAndUser(item, userId, "PM");
-
-    // Find the released shift objects that match the current date and shift name
     const releasedShiftsAM = findAllReleasedShiftsForDay(item, "AM");
-    const releasedShiftsAMText =
-      releasedShiftsAM.length > 0
-        ? `Released Shifts: ${releasedShiftsAM
-            .map(
-              (shift) =>
-                `Section: ${shift.section} Released by ${shift.releaseByUserId}`
-            )
-            .join(", ")}`
-        : "";
-
     const releasedShiftsPM = findAllReleasedShiftsForDay(item, "PM");
-    const releasedShiftsPMText =
-      releasedShiftsPM.length > 0
-        ? `Released Shifts: ${releasedShiftsPM
-            .map(
-              (shift) =>
-                `Section: ${shift.section} Released by ${shift.releaseByUserId}`
-            )
-            .join(", ")}`
-        : "";
-
+  
     return (
       <View style={styles.itemContainer}>
         <View style={styles.dateContainer}>
@@ -140,29 +114,31 @@ const FWeeklySchedule = ({ shiftData }) => {
         <View style={styles.shiftContainer}>
           <View style={styles.shiftColumn}>
             <View style={styles.shiftAM}>
-              <Text style={styles.shiftText}>
-                {matchingShiftAM ? matchingShiftAM : "Not Scheduled"}
-              </Text>
-              <Text style={styles.releasedShiftsText}>
-                {releasedShiftsAMText}
-              </Text>
+              <Text style={styles.shiftText}>AM</Text>
+              <Text style={styles.shiftText}>{matchingShiftAM || "Not Scheduled"}</Text>
+              {releasedShiftsAM.length > 0 && (
+                <Text style={styles.releasedShiftsText}>
+                  Released Shifts: {releasedShiftsAM.join(", ")}
+                </Text>
+              )}
             </View>
           </View>
           <View style={styles.shiftColumn}>
             <View style={styles.shiftPM}>
-              <Text style={styles.shiftText}>
-                {matchingShiftPM ? matchingShiftPM : "Not Scheduled"}
-              </Text>
-              <Text style={styles.releasedShiftsText}>
-                {releasedShiftsPMText}
-              </Text>
+              <Text style={styles.shiftText}>PM</Text>
+              <Text style={styles.shiftText}>{matchingShiftPM || "Not Scheduled"}</Text>
+              {releasedShiftsPM.length > 0 && (
+                <Text style={styles.releasedShiftsText}>
+                  Released Shifts: {releasedShiftsPM.join(", ")}
+                </Text>
+              )}
             </View>
           </View>
         </View>
       </View>
     );
   };
-
+  
   return (
     <>
       <WeekSelector
@@ -182,61 +158,50 @@ const FWeeklySchedule = ({ shiftData }) => {
 
 const styles = StyleSheet.create({
   itemContainer: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   dateContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingBottom: 10,
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 1,
+    width: 80,
+    marginRight: 8,
   },
   dateText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
-    textAlign: "left",
-    flex: 1,
   },
   shiftContainer: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },
   shiftColumn: {
-    width: "48%",
+    flex: 1,
+    paddingHorizontal: 8,
   },
   shiftAM: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginBottom: 10,
+    backgroundColor: "#ddf1fa",
+    borderRadius: 8,
+    padding: 8,
+    alignItems: "center",
   },
   shiftPM: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginTop: 10,
+    backgroundColor: "#fce8e6",
+    borderRadius: 8,
+    padding: 8,
+    alignItems: "center",
   },
   shiftText: {
     fontSize: 18,
-    textAlign: "center",
-    marginBottom: 5,
+    fontWeight: "bold",
   },
   releasedShiftsText: {
-    fontSize: 12,
-    textAlign: "center",
+    fontSize: 16,
+    marginTop: 4,
   },
 });
 
