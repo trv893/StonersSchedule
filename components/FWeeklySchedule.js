@@ -83,9 +83,156 @@ const FWeeklySchedule = ({ shiftData }) => {
       : "Not Scheduled";
   }
 
+  //TODO: Delete this function
+  var fakeData = [
+    {
+      "shiftAssignmentId": 2826,
+      "userId": 2,
+      "shiftId": 1,
+      "dateAssigned": "2023-03-09T00:00:00",
+      "sectionId": 1,
+      "releasedByUser": true,
+      "dayId": 5,
+      "section": "1",
+      "assignee": "Aleesha Jowett",
+      "releaseByUserId": 0,
+      "shiftName": "AM"
+    },
+    {
+      "shiftAssignmentId": 2827,
+      "userId": 2,
+      "shiftId": 1,
+      "dateAssigned": "2023-03-10T00:00:00",
+      "sectionId": 15,
+      "releasedByUser": false,
+      "dayId": 6,
+      "section": "15",
+      "assignee": "Aleesha Jowett",
+      "releaseByUserId": 0,
+      "shiftName": "AM"
+    },
+    {
+      "shiftAssignmentId": 2828,
+      "userId": 2,
+      "shiftId": 2,
+      "dateAssigned": "2023-03-10T00:00:00",
+      "sectionId": 11,
+      "releasedByUser": false,
+      "dayId": 6,
+      "section": "11",
+      "assignee": "Aleesha Jowett",
+      "releaseByUserId": 0,
+      "shiftName": "PM"
+    },
+    {
+      "shiftAssignmentId": 2829,
+      "userId": 2,
+      "shiftId": 2,
+      "dateAssigned": "2023-03-12T00:00:00",
+      "sectionId": 16,
+      "releasedByUser": false,
+      "dayId": 1,
+      "section": "16",
+      "assignee": "Aleesha Jowett",
+      "releaseByUserId": 0,
+      "shiftName": "PM"
+    },
+    {
+      "shiftAssignmentId": 2831,
+      "userId": 3,
+      "shiftId": 1,
+      "dateAssigned": "2023-03-08T00:00:00",
+      "sectionId": 7,
+      "releasedByUser": false,
+      "dayId": 4,
+      "section": "7",
+      "assignee": "Andre Alston",
+      "releaseByUserId": 0,
+      "shiftName": "AM"
+    },
+    {
+      "shiftAssignmentId": 2832,
+      "userId": 3,
+      "shiftId": 1,
+      "dateAssigned": "2023-03-09T00:00:00",
+      "sectionId": 23,
+      "releasedByUser": true,
+      "dayId": 5,
+      "section": "23",
+      "assignee": "Andre Alston",
+      "releaseByUserId": 0,
+      "shiftName": "AM"
+    },
+    {
+      "shiftAssignmentId": 2833,
+      "userId": 3,
+      "shiftId": 1,
+      "dateAssigned": "2023-03-10T00:00:00",
+      "sectionId": 7,
+      "releasedByUser": false,
+      "dayId": 6,
+      "section": "7",
+      "assignee": "Andre Alston",
+      "releaseByUserId": 0,
+      "shiftName": "AM"
+    },
+    {
+      "shiftAssignmentId": 2834,
+      "userId": 3,
+      "shiftId": 1,
+      "dateAssigned": "2023-03-12T00:00:00",
+      "sectionId": 23,
+      "releasedByUser": true,
+      "dayId": 1,
+      "section": "23",
+      "assignee": "Andre Alston",
+      "releaseByUserId": 0,
+      "shiftName": "AM"
+    },
+    {
+      "shiftAssignmentId": 2836,
+      "userId": 4,
+      "shiftId": 2,
+      "dateAssigned": "2023-03-08T00:00:00",
+      "sectionId": 15,
+      "releasedByUser": true,
+      "dayId": 4,
+      "section": "15",
+      "assignee": "Andrea Formosa",
+      "releaseByUserId": 0,
+      "shiftName": "PM"
+    },
+    {
+      "shiftAssignmentId": 2837,
+      "userId": 4,
+      "shiftId": 2,
+      "dateAssigned": "2023-03-11T00:00:00",
+      "sectionId": 18,
+      "releasedByUser": true,
+      "dayId": 7,
+      "section": "18",
+      "assignee": "Andrea Formosa",
+      "releaseByUserId": 0,
+      "shiftName": "PM"
+    },
+    {
+      "shiftAssignmentId": 2838,
+      "userId": 4,
+      "shiftId": 2,
+      "dateAssigned": "2023-03-12T00:00:00",
+      "sectionId": 18,
+      "releasedByUser": true,
+      "dayId": 1,
+      "section": "18",
+      "assignee": "Andrea Formosa",
+      "releaseByUserId": 0,
+      "shiftName": "PM"
+    }]
+
   function findAllReleasedShiftsForDay(date, shiftName) {
     const dateString = date.toISOString().split("T")[0];
-    return data.filter(
+    //TODO: delete this after testing and return to data.filter
+    return fakeData.filter(
       (shift) =>
         shift.dateAssigned.split("T")[0] === dateString &&
         shift.shiftName === shiftName &&
@@ -98,7 +245,8 @@ const FWeeklySchedule = ({ shiftData }) => {
     const date = item.getDate();
     const weekday = item.toLocaleString("default", { weekday: "short" }).slice(0, 3);
     const suffix = date > 3 && date < 21 ? "th" : ["st", "nd", "rd"][(date % 10) - 1] || "th";
-    const formattedDate = `${weekday} ${date}${suffix}`;
+    const formattedDay = `${weekday}`;
+    const formattedDate = `${date}${suffix}`;
   
     // Find the matching shifts for the current date and user ID
     const matchingShiftAM = findShiftForDayAndUser(item, userId, "AM");
@@ -109,7 +257,8 @@ const FWeeklySchedule = ({ shiftData }) => {
     return (
       <View style={styles.itemContainer}>
         <View style={styles.dateContainer}>
-          <Text style={styles.dateText}>{formattedDate}</Text>
+          <Text style={styles.dateDayText}>{formattedDay}</Text>
+          <Text style={styles.dateDateText}>{formattedDate}</Text>
         </View>
         <View style={styles.shiftContainer}>
           <View style={styles.shiftColumn}>
@@ -139,6 +288,7 @@ const FWeeklySchedule = ({ shiftData }) => {
     );
   };
   
+  
   return (
     <>
       <WeekSelector
@@ -157,6 +307,19 @@ const FWeeklySchedule = ({ shiftData }) => {
 };
 
 const styles = StyleSheet.create({
+  dateDayText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 4,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dateDateText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    alignItems: "center",
+    justifyContent: "center"
+  },
   itemContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -168,7 +331,9 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     width: 80,
-    marginRight: 8,
+    marginRight: 0,
+    alignItems: "center",
+    justifyContent: "center"
   },
   dateText: {
     fontSize: 20,
@@ -196,7 +361,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   shiftText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
   },
   releasedShiftsText: {

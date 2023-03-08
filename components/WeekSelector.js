@@ -10,7 +10,7 @@ const WeekSelector = ({
   // Initialize an empty array to store the dates for the current week
   const days = [];
   // Initialize an array of strings to use as labels for the days of the week
-  const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   // Loop through the days of the current week, starting with the start date passed as a prop
   for (let i = 0; i < 7; i++) {

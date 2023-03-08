@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import FWeeklySchedule from "./components/FWeeklySchedule";
 
 // Define formatDateToString function here or import it from a module
@@ -59,7 +59,7 @@ const App = () => {
   };
 
   return (
-    <View>
+    <View style={styles.Container}>
       {isLoading ? (
         <Text>Loading...</Text>
       ) : (
@@ -73,5 +73,13 @@ const App = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  Container: {
+    flex: 1,
+    top:60
+  },
+
+});
 
 export default App;
