@@ -7,28 +7,41 @@ const WeekSelector = ({
   endDate,
   onUserDaySelect,
 }) => {
+  // Initialize an empty array to store the dates for the current week
   const days = [];
+  // Initialize an array of strings to use as labels for the days of the week
   const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+  // Loop through the days of the current week, starting with the start date passed as a prop
   for (let i = 0; i < 7; i++) {
+    // Create a new Date object for the current day
     const day = new Date(startDate);
+    // Add the index of the loop to the date to get the next day of the week
     day.setDate(startDate.getDate() + i);
+    // Check if the current day is the current day of the month
     const isCurrentDay = day.toDateString() === new Date().toDateString();
+    // Push an object containing the date and whether or not it is the current day of the month to the days array
     days.push({
       date: day,
       isCurrentDay,
     });
   }
 
+  // Handler function for the previous week button press event
   const handlePreviousWeek = () => {
+    // Create a new Date object for the new start date, set to 7 days prior to the current start date
     const newStartDate = new Date(startDate);
     newStartDate.setDate(startDate.getDate() - 7);
+    // Call the onStartDateChange function passed as a prop with the new start date
     onStartDateChange(newStartDate);
   };
 
+  // Handler function for the next week button press event
   const handleNextWeek = () => {
+    // Create a new Date object for the new start date, set to 7 days after the current start date
     const newStartDate = new Date(startDate);
     newStartDate.setDate(startDate.getDate() + 7);
+    // Call the onStartDateChange function passed as a prop with the new start date
     onStartDateChange(newStartDate);
   };
 
@@ -50,15 +63,20 @@ const WeekSelector = ({
         return `${dayOfMonth}th`;
     }
   };
+
   // Render the component UI
   return (
     <View style={styles.container}>
+      {/* Render the month and year for the current week */}
       <View style={styles.monthContainer}>
         <Text>
           {startDate.toLocaleString("default", { month: "long" })}{" "}
           {startDate.getFullYear()}
         </Text>
       </View>
+      {/* Render the previous week button */}
+      {/* Render the days of the week */}
+      {/* Render the next week button */}
       <View style={styles.rowContainer}>
         <TouchableOpacity onPress={handlePreviousWeek} style={styles.button}>
           <Text style={styles.buttonText}>{"<"}</Text>
@@ -75,7 +93,9 @@ const WeekSelector = ({
               index !== 0 && index !== 6 && styles.middleDay,
             ]}
           >
+            {/* Render the day of the week */}
             <Text style={styles.dayOfWeek}>{dayLabels[date.getDay()]}</Text>
+            {/* Render the day of the month */}
             <Text style={styles.dayOfMonth}>{formatDayOfMonth(date)}</Text>
           </TouchableOpacity>
         ))}
@@ -87,6 +107,7 @@ const WeekSelector = ({
   );
 };
 
+// Define the styles for the WeekSelector component
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -155,4 +176,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Export the WeekSelector component as the default export of this module
 export default WeekSelector;
