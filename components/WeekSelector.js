@@ -1,9 +1,14 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const WeekSelector = ({ onStartDateChange, startDate, endDate, onDateChange }) => {
+const WeekSelector = ({
+  onStartDateChange,
+  startDate,
+  endDate,
+  onUserDaySelect,
+}) => {
   const days = [];
-  const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   for (let i = 0; i < 7; i++) {
     const day = new Date(startDate);
@@ -19,16 +24,15 @@ const WeekSelector = ({ onStartDateChange, startDate, endDate, onDateChange }) =
     const newStartDate = new Date(startDate);
     newStartDate.setDate(startDate.getDate() - 7);
     onStartDateChange(newStartDate);
-    onDateChange(newStartDate);
   };
 
   const handleNextWeek = () => {
     const newStartDate = new Date(startDate);
     newStartDate.setDate(startDate.getDate() + 7);
     onStartDateChange(newStartDate);
-    onDateChange(newStartDate);
   };
 
+  // Helper function to format the day of the month with the appropriate suffix (e.g. "1st", "2nd", "3rd", "4th")
   const formatDayOfMonth = (date) => {
     const dayOfMonth = date.getDate();
     switch (dayOfMonth) {
@@ -46,26 +50,29 @@ const WeekSelector = ({ onStartDateChange, startDate, endDate, onDateChange }) =
         return `${dayOfMonth}th`;
     }
   };
-
+  // Render the component UI
   return (
     <View style={styles.container}>
       <View style={styles.monthContainer}>
-        <Text>{startDate.toLocaleString('default', { month: 'long' })} {startDate.getFullYear()}</Text>
+        <Text>
+          {startDate.toLocaleString("default", { month: "long" })}{" "}
+          {startDate.getFullYear()}
+        </Text>
       </View>
       <View style={styles.rowContainer}>
         <TouchableOpacity onPress={handlePreviousWeek} style={styles.button}>
-          <Text style={styles.buttonText}>{'<'}</Text>
+          <Text style={styles.buttonText}>{"<"}</Text>
         </TouchableOpacity>
         {days.map(({ date, isCurrentDay }, index) => (
-          <TouchableOpacity 
-            key={index} 
-            onPress={() => onDateChange(date)}
+          <TouchableOpacity
+            key={index}
+            onPress={() => onUserDaySelect(date)}
             style={[
-              styles.dayContainer, 
-              isCurrentDay && styles.currentDay, 
-              index === 0 && styles.firstDay, 
-              index === 6 && styles.lastDay, 
-              index !== 0 && index !== 6 && styles.middleDay
+              styles.dayContainer,
+              isCurrentDay && styles.currentDay,
+              index === 0 && styles.firstDay,
+              index === 6 && styles.lastDay,
+              index !== 0 && index !== 6 && styles.middleDay,
             ]}
           >
             <Text style={styles.dayOfWeek}>{dayLabels[date.getDay()]}</Text>
@@ -73,7 +80,7 @@ const WeekSelector = ({ onStartDateChange, startDate, endDate, onDateChange }) =
           </TouchableOpacity>
         ))}
         <TouchableOpacity onPress={handleNextWeek} style={styles.button}>
-          <Text style={styles.buttonText}>{'>'}</Text>
+          <Text style={styles.buttonText}>{">"}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -82,47 +89,47 @@ const WeekSelector = ({ onStartDateChange, startDate, endDate, onDateChange }) =
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   monthContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
   },
   monthText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginRight: 5,
   },
   yearText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   dayWrapper: {
     flex: 1,
   },
   dayContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     height: 50,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRightWidth: 1,
     borderBottomWidth: 1,
   },
   dayOfWeek: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
   dayOfMonth: {
     fontSize: 14,
   },
   currentDay: {
-    backgroundColor: 'lightblue',
+    backgroundColor: "lightblue",
   },
   firstDay: {
     borderTopLeftRadius: 10,
@@ -140,14 +147,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
   },
   buttonText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
   },
 });
-
-
 
 export default WeekSelector;
