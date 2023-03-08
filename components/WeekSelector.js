@@ -69,11 +69,13 @@ const WeekSelector = ({
     <View style={styles.container}>
       {/* Render the month and year for the current week */}
       <View style={styles.monthContainer}>
-        <Text>
-          {startDate.toLocaleString("default", { month: "long" })}{" "}
-          {startDate.getFullYear()}
-        </Text>
-      </View>
+  <Text style={styles.monthText}>
+    {startDate.toLocaleString("default", { month: "long" })}
+  </Text>
+  <Text style={styles.yearText}>
+    {startDate.getFullYear()}
+  </Text>
+</View>
       {/* Render the previous week button */}
       {/* Render the days of the week */}
       {/* Render the next week button */}
@@ -117,12 +119,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   monthText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     marginRight: 5,
   },
   yearText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
   },
   rowContainer: {
