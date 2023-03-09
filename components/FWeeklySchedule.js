@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, FlatList, View, StyleSheet } from "react-native";
 import WeekSelector from "./WeekSelector";
+import { GreenCircle, RedCircle } from "./Circle";
 
 const FWeeklySchedule = ({ shiftData }) => {
   const [data, setData] = useState(shiftData);
@@ -78,156 +79,155 @@ const FWeeklySchedule = ({ shiftData }) => {
         shift.userId === userId &&
         shift.shiftName === shiftName
     );
-    return matchingShift
-      ? "Section: " + matchingShift.section
-      : "Not Scheduled";
+    return matchingShift ? "Section: " + matchingShift.section : null;
   }
 
   //TODO: Delete this function
   var fakeData = [
     {
-      "shiftAssignmentId": 2826,
-      "userId": 2,
-      "shiftId": 1,
-      "dateAssigned": "2023-03-09T00:00:00",
-      "sectionId": 1,
-      "releasedByUser": true,
-      "dayId": 5,
-      "section": "1",
-      "assignee": "Aleesha Jowett",
-      "releaseByUserId": 0,
-      "shiftName": "AM"
+      shiftAssignmentId: 2826,
+      userId: 2,
+      shiftId: 1,
+      dateAssigned: "2023-03-09T00:00:00",
+      sectionId: 1,
+      releasedByUser: true,
+      dayId: 5,
+      section: "1",
+      assignee: "Aleesha Jowett",
+      releaseByUserId: 0,
+      shiftName: "AM",
     },
     {
-      "shiftAssignmentId": 2827,
-      "userId": 2,
-      "shiftId": 1,
-      "dateAssigned": "2023-03-10T00:00:00",
-      "sectionId": 15,
-      "releasedByUser": false,
-      "dayId": 6,
-      "section": "15",
-      "assignee": "Aleesha Jowett",
-      "releaseByUserId": 0,
-      "shiftName": "AM"
+      shiftAssignmentId: 2827,
+      userId: 2,
+      shiftId: 1,
+      dateAssigned: "2023-03-10T00:00:00",
+      sectionId: 15,
+      releasedByUser: false,
+      dayId: 6,
+      section: "15",
+      assignee: "Aleesha Jowett",
+      releaseByUserId: 0,
+      shiftName: "AM",
     },
     {
-      "shiftAssignmentId": 2828,
-      "userId": 2,
-      "shiftId": 2,
-      "dateAssigned": "2023-03-10T00:00:00",
-      "sectionId": 11,
-      "releasedByUser": false,
-      "dayId": 6,
-      "section": "11",
-      "assignee": "Aleesha Jowett",
-      "releaseByUserId": 0,
-      "shiftName": "PM"
+      shiftAssignmentId: 2828,
+      userId: 2,
+      shiftId: 2,
+      dateAssigned: "2023-03-10T00:00:00",
+      sectionId: 11,
+      releasedByUser: false,
+      dayId: 6,
+      section: "11",
+      assignee: "Aleesha Jowett",
+      releaseByUserId: 0,
+      shiftName: "PM",
     },
     {
-      "shiftAssignmentId": 2829,
-      "userId": 2,
-      "shiftId": 2,
-      "dateAssigned": "2023-03-12T00:00:00",
-      "sectionId": 16,
-      "releasedByUser": false,
-      "dayId": 1,
-      "section": "16",
-      "assignee": "Aleesha Jowett",
-      "releaseByUserId": 0,
-      "shiftName": "PM"
+      shiftAssignmentId: 2829,
+      userId: 2,
+      shiftId: 2,
+      dateAssigned: "2023-03-12T00:00:00",
+      sectionId: 16,
+      releasedByUser: false,
+      dayId: 1,
+      section: "16",
+      assignee: "Aleesha Jowett",
+      releaseByUserId: 0,
+      shiftName: "PM",
     },
     {
-      "shiftAssignmentId": 2831,
-      "userId": 3,
-      "shiftId": 1,
-      "dateAssigned": "2023-03-08T00:00:00",
-      "sectionId": 7,
-      "releasedByUser": false,
-      "dayId": 4,
-      "section": "7",
-      "assignee": "Andre Alston",
-      "releaseByUserId": 0,
-      "shiftName": "AM"
+      shiftAssignmentId: 2831,
+      userId: 3,
+      shiftId: 1,
+      dateAssigned: "2023-03-08T00:00:00",
+      sectionId: 7,
+      releasedByUser: false,
+      dayId: 4,
+      section: "7",
+      assignee: "Andre Alston",
+      releaseByUserId: 0,
+      shiftName: "AM",
     },
     {
-      "shiftAssignmentId": 2832,
-      "userId": 3,
-      "shiftId": 1,
-      "dateAssigned": "2023-03-09T00:00:00",
-      "sectionId": 23,
-      "releasedByUser": true,
-      "dayId": 5,
-      "section": "23",
-      "assignee": "Andre Alston",
-      "releaseByUserId": 0,
-      "shiftName": "AM"
+      shiftAssignmentId: 2832,
+      userId: 3,
+      shiftId: 1,
+      dateAssigned: "2023-03-09T00:00:00",
+      sectionId: 23,
+      releasedByUser: true,
+      dayId: 5,
+      section: "23",
+      assignee: "Andre Alston",
+      releaseByUserId: 0,
+      shiftName: "AM",
     },
     {
-      "shiftAssignmentId": 2833,
-      "userId": 3,
-      "shiftId": 1,
-      "dateAssigned": "2023-03-10T00:00:00",
-      "sectionId": 7,
-      "releasedByUser": false,
-      "dayId": 6,
-      "section": "7",
-      "assignee": "Andre Alston",
-      "releaseByUserId": 0,
-      "shiftName": "AM"
+      shiftAssignmentId: 2833,
+      userId: 3,
+      shiftId: 1,
+      dateAssigned: "2023-03-10T00:00:00",
+      sectionId: 7,
+      releasedByUser: false,
+      dayId: 6,
+      section: "7",
+      assignee: "Andre Alston",
+      releaseByUserId: 0,
+      shiftName: "AM",
     },
     {
-      "shiftAssignmentId": 2834,
-      "userId": 3,
-      "shiftId": 1,
-      "dateAssigned": "2023-03-12T00:00:00",
-      "sectionId": 23,
-      "releasedByUser": true,
-      "dayId": 1,
-      "section": "23",
-      "assignee": "Andre Alston",
-      "releaseByUserId": 0,
-      "shiftName": "AM"
+      shiftAssignmentId: 2834,
+      userId: 3,
+      shiftId: 1,
+      dateAssigned: "2023-03-12T00:00:00",
+      sectionId: 23,
+      releasedByUser: true,
+      dayId: 1,
+      section: "23",
+      assignee: "Andre Alston",
+      releaseByUserId: 0,
+      shiftName: "AM",
     },
     {
-      "shiftAssignmentId": 2836,
-      "userId": 4,
-      "shiftId": 2,
-      "dateAssigned": "2023-03-08T00:00:00",
-      "sectionId": 15,
-      "releasedByUser": true,
-      "dayId": 4,
-      "section": "15",
-      "assignee": "Andrea Formosa",
-      "releaseByUserId": 0,
-      "shiftName": "PM"
+      shiftAssignmentId: 2836,
+      userId: 4,
+      shiftId: 2,
+      dateAssigned: "2023-03-08T00:00:00",
+      sectionId: 15,
+      releasedByUser: true,
+      dayId: 4,
+      section: "15",
+      assignee: "Andrea Formosa",
+      releaseByUserId: 0,
+      shiftName: "PM",
     },
     {
-      "shiftAssignmentId": 2837,
-      "userId": 4,
-      "shiftId": 2,
-      "dateAssigned": "2023-03-11T00:00:00",
-      "sectionId": 18,
-      "releasedByUser": true,
-      "dayId": 7,
-      "section": "18",
-      "assignee": "Andrea Formosa",
-      "releaseByUserId": 0,
-      "shiftName": "PM"
+      shiftAssignmentId: 2837,
+      userId: 4,
+      shiftId: 2,
+      dateAssigned: "2023-03-11T00:00:00",
+      sectionId: 18,
+      releasedByUser: true,
+      dayId: 7,
+      section: "18",
+      assignee: "Andrea Formosa",
+      releaseByUserId: 0,
+      shiftName: "PM",
     },
     {
-      "shiftAssignmentId": 2838,
-      "userId": 4,
-      "shiftId": 2,
-      "dateAssigned": "2023-03-12T00:00:00",
-      "sectionId": 18,
-      "releasedByUser": true,
-      "dayId": 1,
-      "section": "18",
-      "assignee": "Andrea Formosa",
-      "releaseByUserId": 0,
-      "shiftName": "PM"
-    }]
+      shiftAssignmentId: 2838,
+      userId: 4,
+      shiftId: 2,
+      dateAssigned: "2023-03-12T00:00:00",
+      sectionId: 18,
+      releasedByUser: true,
+      dayId: 1,
+      section: "18",
+      assignee: "Andrea Formosa",
+      releaseByUserId: 0,
+      shiftName: "PM",
+    },
+  ];
 
   function findAllReleasedShiftsForDay(date, shiftName) {
     const dateString = date.toISOString().split("T")[0];
@@ -263,24 +263,40 @@ const FWeeklySchedule = ({ shiftData }) => {
         <View style={styles.shiftContainer}>
           <View style={styles.shiftColumn}>
             <View style={styles.shiftAM}>
-              <Text style={styles.shiftText}>AM</Text>
+              <View style={styles.shiftLabel}>
+                <Text style={styles.shiftText}>AM</Text>
+                {matchingShiftAM && (
+                  <View style={styles.dot}>
+                    <GreenCircle />
+                  </View>
+                )}
+              </View>
               <Text style={styles.shiftText}>{matchingShiftAM || "Not Scheduled"}</Text>
               {releasedShiftsAM.length > 0 && (
-                <Text style={styles.releasedShiftsText}>
-                  Released Shifts: {releasedShiftsAM.join(", ")}
-                </Text>
-              )}
+  <Text style={styles.releasedShiftsText}>
+    Released Shifts: {releasedShiftsAM.map(shift => `${shift.assignee} - Section: ${shift.section}`).join(", ")}
+  </Text>
+)}
+
+
             </View>
           </View>
           <View style={styles.shiftColumn}>
             <View style={styles.shiftPM}>
-              <Text style={styles.shiftText}>PM</Text>
+              <View style={styles.shiftLabel}>
+                <Text style={styles.shiftText}>PM</Text>
+                {matchingShiftPM && (
+                  <View style={styles.dot}>
+                    <GreenCircle />
+                  </View>
+                )}
+              </View>
               <Text style={styles.shiftText}>{matchingShiftPM || "Not Scheduled"}</Text>
               {releasedShiftsPM.length > 0 && (
-                <Text style={styles.releasedShiftsText}>
-                  Released Shifts: {releasedShiftsPM.join(", ")}
-                </Text>
-              )}
+  <Text style={styles.releasedShiftsText}>
+    Released Shifts: {releasedShiftsPM.map(shift => `${shift.assignee} - Section: ${shift.section}`).join(", ")}
+  </Text>
+)}
             </View>
           </View>
         </View>
@@ -288,7 +304,7 @@ const FWeeklySchedule = ({ shiftData }) => {
     );
   };
   
-  
+
   return (
     <>
       <WeekSelector
@@ -312,13 +328,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 4,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   dateDateText: {
     fontSize: 14,
     fontWeight: "bold",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   itemContainer: {
     flexDirection: "row",
@@ -330,10 +346,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
   },
   dateContainer: {
-    width: 80,
+    width: 50,
     marginRight: 0,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   dateText: {
     fontSize: 20,
@@ -341,24 +357,26 @@ const styles = StyleSheet.create({
   },
   shiftContainer: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
   },
   shiftColumn: {
     flex: 1,
-    paddingHorizontal: 8,
   },
   shiftAM: {
     backgroundColor: "#ddf1fa",
     borderRadius: 8,
     padding: 8,
     alignItems: "center",
+    flexDirection: "row",
   },
   shiftPM: {
     backgroundColor: "#fce8e6",
     borderRadius: 8,
     padding: 8,
     alignItems: "center",
+    marginTop: 10,
+    flexDirection: "row",
   },
   shiftText: {
     fontSize: 14,
@@ -368,7 +386,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 4,
   },
+  shiftLabel: {
+    paddingRight: 8,
+  },
+  dot: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 });
-
 
 export default FWeeklySchedule;
